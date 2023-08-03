@@ -1,0 +1,70 @@
+﻿@page
+@model AspNetHtmxChartJs.Example.Pages.IndexModel
+@{
+    ViewData["Title"] = "ASPNET Core / Razor / HTMX / ChartJs example";
+}
+<div class="container">
+    <div class="row">
+        <div class="col" hx-indicator="#loading-indicator">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm text-center mt-3">
+            <!-- We add the HTMX Extension 'update_chartjs' to deal with processing the response to the hx-get attribute -->
+            <button hx-get="@Url.Page("", "Update", new { chartId = "myChart", nextButtonId="next", previousButtonId="previous", period = this.Model.PreviousPeriod.ToString("o") })"
+                    hx-swap="none"
+                    hx-ext="update_chartjs"
+                    id="previous"
+                    class="btn btn-primary"
+                    disabled="disabled">
+                Previous
+            </button>
+        </div>
+        <div class="col-sm text-center mt-3">
+            <button hx-get="@Url.Page("", "Update", new { chartId = "myChart", nextButtonId="next", previousButtonId="previous", period = this.Model.NextPeriod.ToString("o") })"
+                    hx-swap="none"
+                    hx-ext="update_chartjs"
+                    id="next"
+                    class="btn btn-primary">
+                Next
+            </button>
+        </div>
+    </div>
+</div>
+<script>
+    /* 
+    We use Razor to inject the data from the Model into the JavaScript to set the initial state. 
+    All future updates are handled by HTMX via the hx-get attributes on the buttons, which call 
+    the OnGetUpdate page handler (manifested as &handler=Update in the query string) to get
+    the next page of data. Client side state (HTML elements) are passed to the server mimicking HATEOAS.
+    */
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const ctx = document.getElementById('myChart');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [@this.Model.CurrentPeriodData],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 20
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '@this.Model.CurrentPeriod.ToLongDateString()'
+                    }
+                }
+            }
+        });
+    });
+</script>
