@@ -12,12 +12,11 @@ public class IndexModel : PageModel
 
     public DateOnly CurrentPeriod { get; set; }
     
-    public string CurrentPeriodData { get; set; }
+    public string CurrentPeriodData { get; set; } = string.Empty;
     
     public DateOnly PreviousPeriod { get; set; }
 
     public DateOnly NextPeriod { get; set; }
-      
 
     public IndexModel(ILogger<IndexModel> logger)
     {
@@ -82,7 +81,7 @@ public class IndexModel : PageModel
         }
     }
 
-    public List<DataPoint> GetData()
+    private List<DataPoint> GetData()
     {
         List<DataPoint> data = new()
         {
@@ -102,6 +101,4 @@ public class IndexModel : PageModel
 
         return data;
     }
-
-
 }
