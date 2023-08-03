@@ -2,6 +2,8 @@
 
 A sample demonstrating how to combine ASP.NET Core, Razor, and HTMX to power interactive Chart.js visualisations.
 
+![Showing a bar chart rendered by Chart.js using HTMX to offer client side interactivity](/Artefacts/images/aspnet-razor-htmx-chartjs.png "ASP.NET Core + Razor + HTMX + Chart.js Demo")
+
 [HTMX](https://htmx.org/) is a simple & elegant library that enables a SPA-like experience without the complexity (and dependency hell) of a full SPA framework. It's a great fit for server-side frameworks like ASP.NET Core, and at [endjin](https://endjin.com) we've been migrating all of our web apps to use it.
 
 While HTMX has [established patterns](https://htmx.org/examples/) for many common UX interactions, integrating with client-side libraries like Chart.js is less well documented. HTMX's primary use case is to interact with the server, which renders (shifting the complexity from the client to the server) and returns HTML fragments, which HTMX then injects into the DOM, and deals with transitions, animations etc, to provide a seamless modern SPA-like experience. HTMX deals with hypermedia (HTML), not data, whereas Chart.js is designed to interact with more traditional Restful JSON APIs. 
