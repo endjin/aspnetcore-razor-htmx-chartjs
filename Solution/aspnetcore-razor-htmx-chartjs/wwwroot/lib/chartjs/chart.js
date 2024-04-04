@@ -1,5 +1,5 @@
 /*!
- * Chart.js v4.3.2
+ * Chart.js v4.4.1
  * https://www.chartjs.org
  * (c) 2023 Chart.js Contributors
  * Released under the MIT License
@@ -2084,7 +2084,7 @@ class LineController extends DatasetController {
         line._chart = this.chart;
         line._datasetIndex = this.index;
         line._decimated = !!_dataset._decimated;
-        line.points = points.slice(Math.max(this._drawStart - 1, 0), this._drawStart + this._drawCount);
+        line.points = points;
         const options = this.resolveDatasetElementOptions(mode);
         if (!this.options.showLine) {
             options.borderWidth = 0;
@@ -4514,6 +4514,13 @@ class Scale extends Element {
                     case 'right':
                         left -= width;
                         break;
+                    case 'inner':
+                        if (i === ilen - 1) {
+                            left -= width;
+                        } else if (i > 0) {
+                            left -= width / 2;
+                        }
+                        break;
                 }
                 backdrop = {
                     left,
@@ -5485,7 +5492,7 @@ function getResolver(resolverCache, scopes, prefixes) {
     }
     return cached;
 }
-const hasFunction = (value)=>isObject(value) && Object.getOwnPropertyNames(value).reduce((acc, key)=>acc || isFunction(value[key]), false);
+const hasFunction = (value)=>isObject(value) && Object.getOwnPropertyNames(value).some((key)=>isFunction(value[key]));
 function needContext(proxy, names) {
     const { isScriptable , isIndexable  } = _descriptors(proxy);
     for (const prop of names){
@@ -5499,7 +5506,7 @@ function needContext(proxy, names) {
     return false;
 }
 
-var version = "4.3.2";
+var version = "4.4.1";
 
 const KNOWN_POSITIONS = [
     'top',
@@ -5569,16 +5576,20 @@ function moveNumericKeys(obj, start, move) {
     }
     return e;
 }
-function getDatasetArea(meta) {
+function getSizeForArea(scale, chartArea, field) {
+    return scale.options.clip ? scale[field] : chartArea[field];
+}
+function getDatasetArea(meta, chartArea) {
     const { xScale , yScale  } = meta;
     if (xScale && yScale) {
         return {
-            left: xScale.left,
-            right: xScale.right,
-            top: yScale.top,
-            bottom: yScale.bottom
+            left: getSizeForArea(xScale, chartArea, 'left'),
+            right: getSizeForArea(xScale, chartArea, 'right'),
+            top: getSizeForArea(yScale, chartArea, 'top'),
+            bottom: getSizeForArea(yScale, chartArea, 'bottom')
         };
     }
+    return chartArea;
 }
 class Chart {
     static defaults = defaults;
@@ -6080,7 +6091,7 @@ class Chart {
         const ctx = this.ctx;
         const clip = meta._clip;
         const useClip = !clip.disabled;
-        const area = getDatasetArea(meta) || this.chartArea;
+        const area = getDatasetArea(meta, this.chartArea);
         const args = {
             meta,
             index: meta.index,
@@ -9705,7 +9716,7 @@ class Tooltip extends Element {
             return [];
         }
         if (!inChartArea) {
-            return lastActive;
+            return lastActive.filter((i)=>this.chart.data.datasets[i.datasetIndex] && this.chart.getDatasetMeta(i.datasetIndex).controller.getParsed(i.index) !== undefined);
         }
         const active = this.chart.getElementsAtEventForMode(e, options.mode, options, replay);
         if (options.reverse) {

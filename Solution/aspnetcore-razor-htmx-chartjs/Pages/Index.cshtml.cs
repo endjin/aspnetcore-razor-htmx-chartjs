@@ -6,9 +6,9 @@ using AspNetHtmxChartJs.Example.Models;
 
 namespace AspNetHtmxChartJs.Example.Pages;
 
-public class IndexModel : PageModel
+public class IndexModel(ILogger<IndexModel> logger) : PageModel
 {
-    private readonly ILogger<IndexModel> logger;
+    private readonly ILogger<IndexModel> logger = logger;
 
     public DateOnly CurrentPeriod { get; set; }
     
@@ -17,11 +17,6 @@ public class IndexModel : PageModel
     public DateOnly PreviousPeriod { get; set; }
 
     public DateOnly NextPeriod { get; set; }
-
-    public IndexModel(ILogger<IndexModel> logger)
-    {
-        this.logger = logger;
-    }
 
     /// <summary>
     /// Set the initial state of the page, including the current period and data.
@@ -83,21 +78,21 @@ public class IndexModel : PageModel
 
     private List<DataPoint> GetData()
     {
-        List<DataPoint> data = new()
-        {
-            new DataPoint(new DateOnly(2022,1,31), new[] { 18, 12, 15, 1, 2, 4 }),
-            new DataPoint(new DateOnly(2022,2,28), new[] { 0, 15, 9, 18, 1, 12}),
-            new DataPoint(new DateOnly(2022,3,31), new[] { 4, 12, 8, 10, 16, 1 }),
-            new DataPoint(new DateOnly(2022,4,30), new[] { 6, 4, 2, 7, 0, 5 }),
-            new DataPoint(new DateOnly(2022,5,31), new[] { 18, 3, 19, 10, 2, 7 }),
-            new DataPoint(new DateOnly(2022,6,30), new[] { 0, 12, 14, 7, 6, 13 }),
-            new DataPoint(new DateOnly(2022,7,31), new[] { 6, 15, 12, 8, 17, 13 }),
-            new DataPoint(new DateOnly(2022,8,31), new[] { 13, 6, 1, 9, 17, 14 }),
-            new DataPoint(new DateOnly(2022,9,30), new[] { 6, 15, 14, 4, 12, 5}),
-            new DataPoint(new DateOnly(2022,10,31), new[] { 6, 11, 13, 9, 16, 8 }),
-            new DataPoint(new DateOnly(2022,11,30), new[] { 16, 19, 10, 9, 5, 17 }),
-            new DataPoint(new DateOnly(2022,12,31), new[] { 10, 0, 11, 16, 18, 9 }),
-        };
+        List<DataPoint> data =
+        [
+            new DataPoint(new DateOnly(2023, 1, 31), [18, 12, 15, 1, 2, 4]),
+            new DataPoint(new DateOnly(2023, 2, 28), [0, 15, 9, 18, 1, 12]),
+            new DataPoint(new DateOnly(2023, 3, 31), [4, 12, 8, 10, 16, 1]),
+            new DataPoint(new DateOnly(2023, 4, 30), [6, 4, 2, 7, 0, 5]),
+            new DataPoint(new DateOnly(2023, 5, 31), [18, 3, 19, 10, 2, 7]),
+            new DataPoint(new DateOnly(2023, 6, 30), [0, 12, 14, 7, 6, 13]),
+            new DataPoint(new DateOnly(2023, 7, 31), [6, 15, 12, 8, 17, 13]),
+            new DataPoint(new DateOnly(2023, 8, 31), [13, 6, 1, 9, 17, 14]),
+            new DataPoint(new DateOnly(2023, 9, 30), [6, 15, 14, 4, 12, 5]),
+            new DataPoint(new DateOnly(2023, 10, 31), [6, 11, 13, 9, 16, 8]),
+            new DataPoint(new DateOnly(2023, 11, 30), [16, 19, 10, 9, 5, 17]),
+            new DataPoint(new DateOnly(2023, 12, 31), [10, 0, 11, 16, 18, 9])
+        ];
 
         return data;
     }

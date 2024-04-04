@@ -4,14 +4,14 @@
   "libraries": [
     {
       "provider": "unpkg",
-      "library": "htmx.org@1.9.4",
+      "library": "htmx.org@1.9.11",
       "destination": "wwwroot/lib/htmx.org",
       "files": [
         "dist/htmx.min.js"
       ]
     },
     {
-      "library": "Chart.js@4.3.2",
+      "library": "Chart.js@4.4.1",
       "destination": "wwwroot/lib/chartjs"
     }
   ]
