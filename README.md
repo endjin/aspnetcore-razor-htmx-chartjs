@@ -1,6 +1,6 @@
-# ASP.NET Core + Razor + HTMX + Chart.js Demo
+# ASP.NET Core + Razor + HTMX 2.x + Chart.js Demo
 
-A sample demonstrating how to combine ASP.NET Core, Razor, and HTMX to power interactive Chart.js visualisations.
+A sample demonstrating how to combine ASP.NET Core, Razor, and HTMX 2.x to power interactive Chart.js visualisations.
 
 ![Showing a bar chart rendered by Chart.js using HTMX to offer client side interactivity](/Artefacts/images/aspnet-razor-htmx-chartjs.png "ASP.NET Core + Razor + HTMX + Chart.js Demo")
 

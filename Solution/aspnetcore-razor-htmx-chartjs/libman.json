@@ -4,7 +4,7 @@
   "libraries": [
     {
       "provider": "unpkg",
-      "library": "htmx.org@1.9.11",
+      "library": "htmx.org@2.0.0",
       "destination": "wwwroot/lib/htmx.org",
       "files": [
         "dist/htmx.min.js"
